@@ -1,0 +1,26 @@
+{% load static %}<!doctype html>
+<html lang="es" data-bs-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#101010"><title>{% block title %}Hotel Paradise{% endblock %}</title>
+<link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}"><link rel="stylesheet" href="{% static 'css/paradise.css' %}"><link rel="stylesheet" href="{% static 'css/premium.css' %}"></head>
+<body>{% if user.is_authenticated %}
+<div class="app-shell">
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="{% url 'reportes:dashboard' %}"><span class="brand-icon">P</span><span>PARADISE<small>HOTEL MANAGEMENT</small></span></a>
+  <div class="nav-label">OPERACIONES</div>
+  <nav>
+    <a class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'reportes:dashboard' %}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg> Resumen</a>
+    <a class="{% if request.resolver_match.app_name == 'habitaciones' %}active{% endif %}" href="{% url 'habitaciones:lista' %}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18V7m18 11v-5a3 3 0 0 0-3-3H9v5M3 15h18M6 10h.01M3 18v3m18-3v3"/><rect x="3" y="8" width="6" height="7" rx="2"/></svg> Habitaciones</a>
+    <a class="{% if request.resolver_match.app_name == 'clientes' %}active{% endif %}" href="{% url 'clientes:lista' %}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg> Clientes</a>
+    <a class="{% if request.resolver_match.app_name == 'reservaciones' and request.resolver_match.url_name != 'disponibilidad' %}active{% endif %}" href="{% url 'reservaciones:lista' %}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18m-12 5 2 2 4-4"/></svg> Reservaciones</a>
+    <a class="{% if request.resolver_match.url_name == 'disponibilidad' %}active{% endif %}" href="{% url 'reservaciones:disponibilidad' %}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg> Disponibilidad</a>
+  </nav>
+  <div class="nav-label mt-4">ADMINISTRACIÓN</div>
+  <nav><a class="{% if request.resolver_match.url_name == 'reportes' %}active{% endif %}" href="{% url 'reportes:reportes' %}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19h16M7 15v-4m5 4V5m5 10V8"/></svg> Reportes</a>{% if user.is_staff %}<a href="{% url 'admin:index' %}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m10 3-.7 2.5-2 .9L5 5.3 3 8.7l2 1.8v3L3 15.3l2 3.4 2.3-1.1 2 .9L10 21h4l.7-2.5 2-.9 2.3 1.1 2-3.4-2-1.8v-3l2-1.8-2-3.4-2.3 1.1-2-.9L14 3z"/></svg> Panel administrativo</a>{% endif %}</nav>
+  <div class="sidebar-bottom"><div class="user-avatar">{{ user.username|slice:":1"|upper }}</div><div class="flex-grow-1"><strong>{{ user.username }}</strong><small>{% if user.is_staff %}Administrador{% else %}Recepción{% endif %}</small></div>
+  <form method="post" action="{% url 'seguridad:logout' %}">{% csrf_token %}<button class="logout" title="Cerrar sesión" aria-label="Cerrar sesión">↗</button></form></div>
+</aside>
+<main class="workspace"><button class="mobile-menu" type="button" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Abrir menú">☰</button>
+<div class="content-wrap">{% for message in messages %}<div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show" role="alert">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button></div>{% endfor %}
+{% block content %}{% endblock %}</div>
+<footer>HOTEL PARADISE <span>Gestión hotelera · México</span></footer></main></div>
+{% else %}{% block public %}{% endblock %}{% endif %}
+<script src="{% static 'vendor/bootstrap.bundle.min.js' %}"></script></body></html>
