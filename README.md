@@ -1,6 +1,18 @@
 # Hotel Paradise
 
-Sistema académico de reservación de hotel. Django, SQLite y Bootstrap 5.
+
+Maestro, cuando descargue el trabajo, descomprima el archivo ZIP y ejecute el archivo correspondiente a su sistema operativo:
+
+Windows: iniciar_windows.bat
+
+macOS: iniciar_mac.command
+
+El sistema instalará automáticamente las dependencias y se abrirá en su navegador.
+
+Usuario: admin
+Contraseña: admin
+
+Es necesario tener Python instalado y mantener abierta la terminal mientras utiliza el sistema.
 
 
 ## Inicio rápido para la evaluación
