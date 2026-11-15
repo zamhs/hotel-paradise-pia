@@ -1,0 +1,12 @@
+{% load static %}
+{% if h.imagen %}
+  <img src="{{ h.imagen.url }}" alt="Habitación {{ h.numero }}" loading="lazy">
+{% else %}
+  {% with carpeta='images/rooms/'|add:h.tipo|lower %}
+    {% if h.numero|divisibleby:2 %}
+      <img src="{% static carpeta|add:'-2.jpg' %}" alt="Fotografía de referencia · {{ h.tipo }}" loading="lazy">
+    {% else %}
+      <img src="{% static carpeta|add:'-1.jpg' %}" alt="Fotografía de referencia · {{ h.tipo }}" loading="lazy">
+    {% endif %}
+  {% endwith %}
+{% endif %}
